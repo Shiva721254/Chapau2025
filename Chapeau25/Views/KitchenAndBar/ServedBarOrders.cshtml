@@ -16,82 +16,10 @@
 				</div>
 
 			</div>
-			@{
-				// Define the order of course types
-				var courseOrder = new Dictionary<string, int>
-				{
-				{ "Starter", 1 },
-				{ "Main", 2 },
-				{ "Dessert", 3 }
-				};
-
-				// Group items by type (Starter/Main/Dessert) and sort them based on courseOrder
-				var groupedItems = order.OrderItems
-				.GroupBy(item => item.Type)
-				.OrderBy(group => courseOrder.ContainsKey(group.Key) ? courseOrder[group.Key] : 99)
-				.ToList();
-			}
-			<!-- Order Items -->
-			@foreach (var group in groupedItems)
-			{
-				// Get the most advanced status in this course group
-				//string? courseStatus = course.Max(oi => oi.CourseStatus);
-				string courseStatus = "Ordered";
-
-				if (group.All(oi => oi.CourseStatus == "Ordered"))
-				{
-					courseStatus = "Ordered";
-				}
-				else if (group.All(oi => oi.CourseStatus == "Preparing"))
-				{
-					courseStatus = "Preparing";
-				}
-				else if (group.All(oi => oi.CourseStatus == "Ready"))
-				{
-					courseStatus = "Ready";
-				}
-				else
-				{
-					courseStatus = "Served";
-				}
-
+			
 				<div class="mb-3">
-					<div style="background-color:#d5d5d5;display:flex;justify-content:space-between;align-items:center;padding:6px 15px;">
-						<h6>@group.Key</h6>
-						<div>
-							<form method="post" action="/KitchenAndBar/ChangeBarOrderItemStatus">
-								<input type="hidden" name="orderId" value="@order.OrderId" />
-								<input type="hidden" name="course" value="@group.Key" />
-
-								@if (courseStatus == "Ordered")
-								{
-									<button type="submit" name="courseStatus" value="Preparing" class="btn btn-warning">
-										Ordered
-									</button>
-								}
-								else if (courseStatus == "Preparing")
-								{
-									<button type="submit" name="courseStatus" value="Ready" class="btn btn-success">
-										Preparing
-									</button>
-								}
-								else if (courseStatus == "Ready")
-								{
-									<button type="submit" name="courseStatus" value="Served" class="btn btn-success">
-										Ready
-									</button>
-								}
-								else
-								{
-									<button type="submit" class="btn btn-success">
-										Served
-									</button>
-								}
-							</form>
-
-						</div>
-					</div>
-					@foreach (OrderItem item in group)
+					
+					@foreach (OrderItem item in order.OrderItems)
 					{
 						<div class="d-flex justify-content-between align-items-start mb-2" style="padding:6px 15px;">
 							<div>
@@ -127,7 +55,7 @@
 					}
 
 				</div>
-			}
+			
 
 		</div>
 

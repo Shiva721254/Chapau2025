@@ -90,6 +90,7 @@ namespace Chapeau25.Repositories
         //    string comment = (string)reader["comment"];
             decimal ItemPrice = (decimal)reader["ItemPrice"];
             int Quantity = (int)reader["Quantity"];
+
             OrderItemStatus orderItemStatus = reader["OrderStatus"] == DBNull.Value ? OrderItemStatus.Ordered : (OrderItemStatus)Enum.Parse(typeof(OrderItemStatus), reader["OrderStatus"].ToString());
 
 
@@ -148,7 +149,7 @@ namespace Chapeau25.Repositories
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@status", status);
+                    command.Parameters.AddWithValue("@status", status.ToString());
                     command.Parameters.AddWithValue("@orderId", orderId);
 
                     connection.Open();

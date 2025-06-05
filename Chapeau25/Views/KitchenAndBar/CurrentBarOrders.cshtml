@@ -13,6 +13,40 @@
 				<div>
 					<i class="bi bi-clock"></i> @order.OrderdTime.ToString(@"hh\:mm")
 					<span class="ms-2">Table: <strong>#@order.TableNumber</strong></span>
+					<div class="text-end">
+						<span class="me-3">Main Course Meal</span>
+						Order: <strong>@order.OrderId</strong>
+
+						<form method="post" action="/KitchenAndBar/ChangeWholeOrderStatus" class="mt-2">
+							<input type="hidden" name="orderId" value="@order.OrderId" />
+
+							@{
+								var allStatuses = order.OrderItems.Select(oi => oi.OrderItemStatus).ToList();
+								string nextStatus = "Ordered";
+
+								if (allStatuses.All(s => s == OrderItemStatus.Ordered))
+								{
+									nextStatus = "Preparing";
+								}
+								else if (allStatuses.All(s => s == OrderItemStatus.Preparing))
+								{
+									nextStatus = "Ready";
+								}
+								else if (allStatuses.All(s => s == OrderItemStatus.Ready))
+								{
+									nextStatus = "Served";
+								}
+								else
+								{
+									nextStatus = "Served"; // fallback for mixed statuses
+								}
+							}
+
+							<button type="submit" name="orderStatus" value="@nextStatus" class="btn btn-outline-light btn-sm">
+								Set All to @nextStatus
+							</button>
+						</form>
+					</div>
 				</div>
 			
 			</div>
@@ -35,61 +69,11 @@
 			@foreach (var group in groupedItems)
 			{
 				// Get the most advanced status in this course group
-				//string? courseStatus = course.Max(oi => oi.CourseStatus);
-				string courseStatus = "Ordered";
-
-				if (group.All(oi => oi.CourseStatus == "Ordered"))
-				{
-					courseStatus = "Ordered";
-				}
-				else if (group.All(oi => oi.CourseStatus == "Preparing"))
-				{
-					courseStatus = "Preparing";
-				}
-				else if (group.All(oi => oi.CourseStatus == "Ready"))
-				{
-					courseStatus = "Ready";
-				}
-				else
-				{
-					courseStatus = "Served";
-				}
+				
 
 				<div class="mb-3">
 					<div style="background-color:#d5d5d5;display:flex;justify-content:space-between;align-items:center;padding:6px 15px;">
-						<h6>@group.Key</h6>
-						<div>
-							<form method="post" action="/KitchenAndBar/ChangeBarOrderItemStatus">
-								<input type="hidden" name="orderId" value="@order.OrderId" />
-								<input type="hidden" name="course" value="@group.Key" />
-
-								@if (courseStatus == "Ordered")
-								{
-									<button type="submit" name="courseStatus" value="Preparing" class="btn btn-warning">
-										Ordered
-									</button>
-								}
-								else if (courseStatus == "Preparing")
-								{
-									<button type="submit" name="courseStatus" value="Ready" class="btn btn-success">
-										Preparing
-									</button>
-								}
-								else if (courseStatus == "Ready")
-								{
-									<button type="submit" name="courseStatus" value="Served" class="btn btn-success">
-										Ready
-									</button>
-								}
-								else
-								{
-									<button type="submit" class="btn btn-success">
-										Served
-									</button>
-								}
-							</form>
-
-						</div>
+						
 					</div>
 					@foreach (OrderItem item in group)
 					{

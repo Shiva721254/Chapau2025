@@ -34,7 +34,7 @@ namespace Chapeau25.Controllers
         {
            
             _kitchenBarController.ChangeKitchenCourseStatus(orderId, course, courseStatus);
-                return RedirectToAction("CurrentKitchenOrders"); // Or your actual view name
+                return RedirectToAction("CurrentKitchenOrders"); 
            
         }
 
@@ -43,7 +43,7 @@ namespace Chapeau25.Controllers
         public IActionResult ChangeWholeOrderStatus(int orderId, OrderItemStatus orderStatus)
         {
             _kitchenBarController.ChangeWholeOrderStatus(orderId, orderStatus);
-            return RedirectToAction("CurrentKitchenOrders"); // or wherever your view is
+            return RedirectToAction("CurrentKitchenOrders"); 
         }
 
         public IActionResult ServedKitchenOrders()
@@ -57,7 +57,7 @@ namespace Chapeau25.Controllers
         {
 
             _kitchenBarController.ChangeKitchenCourseStatus(orderId, course, courseStatus);
-            return RedirectToAction("ServedKitchenOrders"); // Or your actual view name
+            return RedirectToAction("ServedKitchenOrders"); 
 
         }
 

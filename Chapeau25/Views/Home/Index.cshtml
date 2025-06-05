@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <header>
+        <partial name="_Topmenu" />
+    </header>
+    <h1 class="display-4">Welcome to Chapeau Restaurant</h1>
+
+    <div class="container">
+        <!-- Features Section -->
+        <div class="container text-center my-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Kitchen Monitor</h5>
+                            <p class="card-text">Track the preparation status of all current orders.</p>
+                            <a href="/KitchenAndBar" class="btn btn-outline-primary">Go to Kitchen</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        &copy; 2025 - Chapeau25 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+</div>

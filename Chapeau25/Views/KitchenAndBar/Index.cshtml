@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "Kitchen & Bar Dashboard";
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Kitchen & Bar Dashboard</h2>
+
+    <div class="row g-4 text-center">
+        <div class="col-md-6">
+            <a href="/KitchenAndBar/CurrentKitchenOrders" class="text-decoration-none">
+                <div class="card shadow h-100 border-primary">
+                    <div class="card-body">
+                        <h4 class="text-primary">🍽️ Current Kitchen Orders</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a href="/KitchenAndBar/ServedKitchenOrders" class="text-decoration-none">
+                <div class="card shadow h-100 border-success">
+                    <div class="card-body">
+                        <h4 class="text-success">✅ Served Kitchen Orders</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a href="/KitchenAndBar/CurrentBarOrders" class="text-decoration-none">
+                <div class="card shadow h-100 border-info">
+                    <div class="card-body">
+                        <h4 class="text-info">🍷 Current Bar Orders</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a href="/KitchenAndBar/ServedBarOrders" class="text-decoration-none">
+                <div class="card shadow h-100 border-secondary">
+                    <div class="card-body">
+                        <h4 class="text-secondary">✅ Served Bar Orders</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

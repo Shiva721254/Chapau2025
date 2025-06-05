@@ -1,4 +1,5 @@
 ﻿using Chapeau25.Models;
+using Chapeau25.Service;
 using Microsoft.Data.SqlClient;
 using static NuGet.Packaging.PackagingConstants;
 
@@ -74,10 +75,9 @@ namespace Chapeau25.Repositories
             string EmployeeName = (string)reader["EmployeeName"];
             OrderItemStatus OrderStatus = Enum.Parse<OrderItemStatus>(reader["OrderStatus"].ToString());
             int TableNumber = (int)reader["TableNumber"];
-            DateTime OrderdTime = (DateTime)reader["OrderedTime"];
-
-            Order order = new Order(OrderId, EmployeeName, OrderStatus, TableNumber, OrderdTime);
-            order.OrderItems = new List<OrderItem>();
+            DateTime OrderdTime = (DateTime)reader["OrderedTime"]; 
+            Order order = new Order(OrderId, EmployeeName, OrderStatus, TableNumber, OrderdTime,new List<OrderItem>());
+          
             return order;
             
         }

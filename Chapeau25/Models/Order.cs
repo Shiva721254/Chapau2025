@@ -28,14 +28,7 @@ namespace Chapeau25.Models
         }
      
 
-        public Order(int orderId, string employeeName, OrderItemStatus orderStatus, int tableNumber, DateTime orderdTime)
-        {
-            OrderId = orderId;
-            EmployeeName = employeeName;
-            OrderStatus = orderStatus;
-            TableNumber = tableNumber;
-            OrderdTime = orderdTime;
-        }
+       
         public Order(int orderId, string employeeName, OrderItemStatus orderStatus, int tableNumber, DateTime orderdTime, List<OrderItem> orderItems)
         {
             OrderId = orderId;

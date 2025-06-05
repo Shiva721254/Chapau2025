@@ -8,9 +8,9 @@ namespace Chapeau25.Services
     {
         private readonly IKitchenAndBarRepositories _KitchenAndBarRepo;
 
-        public KitchenAndBarService(IKitchenAndBarRepositories ServiceRepo)
+        public KitchenAndBarService(IKitchenAndBarRepositories Repo)
         {
-            _KitchenAndBarRepo = ServiceRepo;
+            _KitchenAndBarRepo = Repo;
         }
 
         public List<Order> GetCurrentKitchenOrders() => _KitchenAndBarRepo.GetCurrentKitchenOrders();

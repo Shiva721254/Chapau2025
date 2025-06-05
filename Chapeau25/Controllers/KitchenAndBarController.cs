@@ -1,16 +1,17 @@
 ﻿using Chapeau25.Models;
 using Chapeau25.Repositories;
+using Chapeau25.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chapeau25.Controllers
 {
     public class KitchenAndBarController : Controller
     {
-        private readonly IKitchenAndBarRepositories _kitchenBarController;
+        private readonly IKitchenAndBarService _kitchenBarService;
 
-        public KitchenAndBarController(IKitchenAndBarRepositories kitchenBarOrder)
+        public KitchenAndBarController(IKitchenAndBarService kitchenBarService)
         {
-            _kitchenBarController = kitchenBarOrder;
+            _kitchenBarService = kitchenBarService;
         }
 
         public IActionResult Index()
@@ -19,21 +20,21 @@ namespace Chapeau25.Controllers
         }
         public IActionResult CurrentKitchenOrders()
         {
-            List<Order> orders = _kitchenBarController.GetCurrentKitchenOrders();
+            List<Order> orders = _kitchenBarService.GetCurrentKitchenOrders();
             return View(orders);
         }
 
         [HttpPost]
         public IActionResult ChangeKitchenOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
-            _kitchenBarController.ChangeKitchenOrderItemStatus(orderItemId, orderItemStatus);
+            _kitchenBarService.ChangeKitchenOrderItemStatus(orderItemId, orderItemStatus);
             return RedirectToAction("CurrentKitchenOrders");
         }
         [HttpPost]
         public IActionResult ChangeCourseStatus(int orderId, string course, OrderItemStatus courseStatus)
         {
-           
-            _kitchenBarController.ChangeKitchenCourseStatus(orderId, course, courseStatus);
+
+            _kitchenBarService.ChangeKitchenCourseStatus(orderId, course, courseStatus);
                 return RedirectToAction("CurrentKitchenOrders"); 
            
         }
@@ -42,13 +43,13 @@ namespace Chapeau25.Controllers
         [HttpPost]
         public IActionResult ChangeWholeOrderStatus(int orderId, OrderItemStatus orderStatus)
         {
-            _kitchenBarController.ChangeWholeOrderStatus(orderId, orderStatus);
+            _kitchenBarService.ChangeWholeOrderStatus(orderId, orderStatus);
             return RedirectToAction("CurrentKitchenOrders"); 
         }
 
         public IActionResult ServedKitchenOrders()
         {
-            List<Order> orders = _kitchenBarController.GetServedKitchenOrders();
+            List<Order> orders = _kitchenBarService.GetServedKitchenOrders();
             return View(orders);
         }
 
@@ -56,27 +57,27 @@ namespace Chapeau25.Controllers
         public IActionResult GetBackServedOrder(int orderId, string course, OrderItemStatus courseStatus)
         {
 
-            _kitchenBarController.ChangeKitchenCourseStatus(orderId, course, courseStatus);
+            _kitchenBarService.ChangeKitchenCourseStatus(orderId, course, courseStatus);
             return RedirectToAction("ServedKitchenOrders"); 
 
         }
 
         public IActionResult CurrentBarOrders()
         {
-            List<Order> orders = _kitchenBarController.GetCurrentBarOrders();
+            List<Order> orders = _kitchenBarService.GetCurrentBarOrders();
             return View(orders);
         }
 
         [HttpPost]
         public IActionResult ChangeBarOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
-            _kitchenBarController.ChangeKitchenOrderItemStatus(orderItemId, orderItemStatus);
+            _kitchenBarService.ChangeKitchenOrderItemStatus(orderItemId, orderItemStatus);
             return RedirectToAction("CurrentBarOrders");
         }
 
         public IActionResult ServedBarOrders()
         {
-            List<Order> orders = _kitchenBarController.GetServedBarOrders();
+            List<Order> orders = _kitchenBarService.GetServedBarOrders();
             return View(orders);
         }
     }

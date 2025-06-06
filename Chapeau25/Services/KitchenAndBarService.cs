@@ -1,4 +1,5 @@
-﻿using Chapeau25.Models;
+﻿using Chapeau25.Enums;
+using Chapeau25.Models;
 using Chapeau25.Repositories;
 using Chapeau25.Service;
 
@@ -13,8 +14,23 @@ namespace Chapeau25.Services
             _KitchenAndBarRepo = Repo;
         }
 
-        public List<Order> GetCurrentKitchenOrders() => _KitchenAndBarRepo.GetCurrentKitchenOrders();
+        public List<Order> GetCurrentKitchenOrders()
+        {
+           return  _KitchenAndBarRepo.GetOrders(OrderFetchFilter.KitchenCurrent);
+        }
+        public List<Order> GetServedKitchenOrders()
+        {
+            return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.KitchenServed);
+        }
+        public List<Order> GetCurrentBarOrders()
+        { 
+             return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.BarCurrent); 
+        }
+        public List<Order> GetServedBarOrders()
+        {
 
+            return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.BarServed);
+        }
         public void ChangeKitchenOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
             _KitchenAndBarRepo.ChangeKitchenOrderItemStatus(orderItemId, orderItemStatus);
@@ -27,14 +43,10 @@ namespace Chapeau25.Services
         { 
              _KitchenAndBarRepo.ChangeWholeOrderStatus(orderId, status);
         }
-        public List<Order> GetServedKitchenOrders() => _KitchenAndBarRepo.GetServedKitchenOrders();
-
-        public List<Order> GetCurrentBarOrders() => _KitchenAndBarRepo.GetCurrentBarOrders();
-
         public void ChangeBarOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         { 
              _KitchenAndBarRepo.ChangeBarOrderItemStatus(orderItemId, orderItemStatus);
         }
-        public List<Order> GetServedBarOrders() => _KitchenAndBarRepo.GetServedBarOrders();
+       
     }
 }

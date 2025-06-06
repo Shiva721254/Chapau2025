@@ -1,4 +1,5 @@
-﻿using Chapeau25.Models;
+﻿using Chapeau25.Enums;
+using Chapeau25.Models;
 using Chapeau25.Repositories;
 using Chapeau25.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,21 @@ namespace Chapeau25.Controllers
             List<Order> orders = _kitchenBarService.GetCurrentKitchenOrders();
             return View(orders);
         }
+        public IActionResult ServedKitchenOrders()
+        {
+            List<Order> orders = _kitchenBarService.GetServedKitchenOrders();
+            return View(orders);
+        }
+        public IActionResult CurrentBarOrders()
+        {
+            List<Order> orders = _kitchenBarService.GetCurrentBarOrders();
+            return View(orders);
+        }
+        public IActionResult ServedBarOrders()
+        {
+            List<Order> orders = _kitchenBarService.GetServedBarOrders();
+            return View(orders);
+        }
 
         [HttpPost]
         public IActionResult ChangeKitchenOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
@@ -39,18 +55,11 @@ namespace Chapeau25.Controllers
            
         }
 
-     
         [HttpPost]
         public IActionResult ChangeWholeOrderStatus(int orderId, OrderItemStatus orderStatus)
         {
             _kitchenBarService.ChangeWholeOrderStatus(orderId, orderStatus);
             return RedirectToAction("CurrentKitchenOrders"); 
-        }
-
-        public IActionResult ServedKitchenOrders()
-        {
-            List<Order> orders = _kitchenBarService.GetServedKitchenOrders();
-            return View(orders);
         }
 
         [HttpPost]
@@ -62,12 +71,6 @@ namespace Chapeau25.Controllers
 
         }
 
-        public IActionResult CurrentBarOrders()
-        {
-            List<Order> orders = _kitchenBarService.GetCurrentBarOrders();
-            return View(orders);
-        }
-
         [HttpPost]
         public IActionResult ChangeBarOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
@@ -75,10 +78,6 @@ namespace Chapeau25.Controllers
             return RedirectToAction("CurrentBarOrders");
         }
 
-        public IActionResult ServedBarOrders()
-        {
-            List<Order> orders = _kitchenBarService.GetServedBarOrders();
-            return View(orders);
-        }
+       
     }
 }

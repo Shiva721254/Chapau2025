@@ -1,4 +1,4 @@
-﻿namespace Chapeau25.Models
+﻿namespace Chapeau25.Enums
 {
     public enum OrderItemStatus
     {

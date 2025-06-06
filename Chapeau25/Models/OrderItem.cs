@@ -1,4 +1,6 @@
-﻿namespace Chapeau25.Models
+﻿using Chapeau25.Enums;
+
+namespace Chapeau25.Models
 {
     public class OrderItem
     {

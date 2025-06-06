@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Chapeau25.Enums;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Chapeau25.Models
 {

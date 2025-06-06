@@ -11,7 +11,7 @@ namespace Chapeau25.Service
         List<Order> GetServedBarOrders();
         void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus);
         void ChangeKitchenCourseStatus(int orderId, string Course, OrderItemStatus courseStatus);
-        void ChangeWholeOrderStatus(int orderId, OrderItemStatus status);
-        
+        void ChangeEntireOrderStatus(int orderId,bool isDrink, OrderItemStatus status);
+       
     }
 }

@@ -2,6 +2,7 @@
 using Chapeau25.Models;
 using Chapeau25.Repositories;
 using Chapeau25.Service;
+using NuGet.Protocol.Core.Types;
 
 namespace Chapeau25.Services
 {
@@ -39,11 +40,11 @@ namespace Chapeau25.Services
         { 
             _KitchenAndBarRepo.ChangeKitchenCourseStatus(orderId, course, courseStatus);
         }
-        public void ChangeWholeOrderStatus(int orderId, OrderItemStatus status)
-        { 
-             _KitchenAndBarRepo.ChangeWholeOrderStatus(orderId, status);
+        public void ChangeEntireOrderStatus(int orderId,  bool isDrink,OrderItemStatus status)
+        {
+            _KitchenAndBarRepo.ChangeEntireOrderStatusByType(orderId, isDrink, status);
         }
-       
-       
+
+
     }
 }

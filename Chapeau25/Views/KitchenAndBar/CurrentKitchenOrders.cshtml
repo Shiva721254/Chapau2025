@@ -23,9 +23,9 @@
                     <span class="me-3">Main Course Meal</span>
                     Order: <strong>@order.OrderId</strong>
 
-                    <form method="post" action="/KitchenAndBar/ChangeWholeOrderStatus" class="mt-2">
+                    <form method="post" action="/KitchenAndBar/ChangeFoodOrDrinkStatus" class="mt-2">
                         <input type="hidden" name="orderId" value="@order.OrderId" />
-
+                        <input type="hidden" name="isDrink" value="false" />
                         @{
                             var allStatuses = order.OrderItems.Select(oi => oi.OrderItemStatus).ToList();
                             string nextStatus = "Ordered";
@@ -48,7 +48,7 @@
                             }
                         }
 
-                        <button type="submit" name="orderStatus" value="@nextStatus" class="btn btn-outline-light btn-sm">
+                        <button type="submit" name="orderItemStatus" value="@nextStatus" class="btn btn-outline-light btn-sm">
                             Set All to @nextStatus
                         </button>
                     </form>

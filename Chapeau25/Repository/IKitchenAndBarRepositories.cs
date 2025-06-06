@@ -11,8 +11,9 @@ namespace Chapeau25.Repositories
         void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus);
 
         void ChangeKitchenCourseStatus(int orderId, string Course, OrderItemStatus courseStatus);
-        void ChangeWholeOrderStatus(int orderId, OrderItemStatus status);
+        void ChangeEntireOrderStatusByType(int orderId, bool isDrink, OrderItemStatus status);
 
-        
+
+
     }
 }

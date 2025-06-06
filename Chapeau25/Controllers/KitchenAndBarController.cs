@@ -56,10 +56,10 @@ namespace Chapeau25.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeWholeOrderStatus(int orderId, OrderItemStatus orderStatus)
+        public IActionResult ChangeFoodOrDrinkStatus(int orderId, bool isDrink, OrderItemStatus orderItemStatus)
         {
-            _kitchenBarService.ChangeWholeOrderStatus(orderId, orderStatus);
-            return RedirectToAction("CurrentKitchenOrders"); 
+            _kitchenBarService.ChangeEntireOrderStatus(orderId,isDrink, orderItemStatus);
+            return RedirectToAction("CurrentKitchenOrders");
         }
 
         [HttpPost]

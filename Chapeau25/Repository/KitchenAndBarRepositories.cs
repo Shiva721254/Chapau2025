@@ -181,12 +181,12 @@ namespace Chapeau25.Repositories
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 string query = "UPDATE ORDER_ITEM SET OrderItemStatus = @OrderItemStatus " +
-                               "WHERE orderItem_id = @orderItemId";  // uses @orderItemId
+                               "WHERE orderItem_id = @orderItemId";  
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
                 cmd.Parameters.AddWithValue("@OrderItemStatus", orderItemStatus.ToString());
-                cmd.Parameters.AddWithValue("@orderItemId", orderItemId); // FIXED: matched query
+                cmd.Parameters.AddWithValue("@orderItemId", orderItemId); 
 
                 
                     conn.Open();
@@ -219,7 +219,28 @@ namespace Chapeau25.Repositories
 
         }
 
-        public void ChangeWholeOrderStatus(int orderId, OrderItemStatus status)
+        public void ChangeEntireOrderStatusByType(int orderId,  bool isDrink,OrderItemStatus status)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                string query = @"UPDATE ORDER_ITEM
+                                SET OrderItemStatus = @status
+                                FROM ORDER_ITEM
+                                JOIN MENU_ITEM ON ORDER_ITEM.menuitem_id = MENU_ITEM.menuitem_id
+                                WHERE ORDER_ITEM.order_id = @orderId AND MENU_ITEM.type " + (isDrink ? "= 'Drink'" : "IN ('Starter', 'Main', 'Dessert')") + ";";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@status", status.ToString());
+                    command.Parameters.AddWithValue("@orderId", orderId);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+ /*       public void ChangeWholeOrderStatus(int orderId, OrderItemStatus status)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -235,7 +256,7 @@ namespace Chapeau25.Repositories
                 }
             }
         }
-
+ */
         /*     public List<Order> GetServedKitchenOrders()
              {
                  List<Order> orders = new List<Order>();

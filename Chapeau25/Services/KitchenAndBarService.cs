@@ -31,9 +31,9 @@ namespace Chapeau25.Services
 
             return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.BarServed);
         }
-        public void ChangeKitchenOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
+        public void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
-            _KitchenAndBarRepo.ChangeKitchenOrderItemStatus(orderItemId, orderItemStatus);
+            _KitchenAndBarRepo.ChangeOrderItemStatus(orderItemId, orderItemStatus);
         }
         public void ChangeKitchenCourseStatus(int orderId, string course, OrderItemStatus courseStatus)
         { 
@@ -43,10 +43,7 @@ namespace Chapeau25.Services
         { 
              _KitchenAndBarRepo.ChangeWholeOrderStatus(orderId, status);
         }
-        public void ChangeBarOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
-        { 
-             _KitchenAndBarRepo.ChangeBarOrderItemStatus(orderItemId, orderItemStatus);
-        }
+       
        
     }
 }

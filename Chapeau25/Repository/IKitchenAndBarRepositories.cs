@@ -8,11 +8,11 @@ namespace Chapeau25.Repositories
       
         public List<Order> GetOrders(OrderFetchFilter filter);
 
-        void ChangeKitchenOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus);
+        void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus);
 
         void ChangeKitchenCourseStatus(int orderId, string Course, OrderItemStatus courseStatus);
         void ChangeWholeOrderStatus(int orderId, OrderItemStatus status);
 
-        void ChangeBarOrderItemStatus(int orderItemId, OrderItemStatus status);
+        
     }
 }

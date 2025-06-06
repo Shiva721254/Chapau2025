@@ -9,10 +9,9 @@ namespace Chapeau25.Service
         List<Order> GetServedKitchenOrders();
         public List<Order> GetCurrentBarOrders();
         List<Order> GetServedBarOrders();
-        void ChangeKitchenOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus);
+        void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus);
         void ChangeKitchenCourseStatus(int orderId, string Course, OrderItemStatus courseStatus);
         void ChangeWholeOrderStatus(int orderId, OrderItemStatus status);
-        void ChangeBarOrderItemStatus(int orderItemId, OrderItemStatus status);
         
     }
 }

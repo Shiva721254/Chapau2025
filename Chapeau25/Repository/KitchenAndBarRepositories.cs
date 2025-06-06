@@ -176,7 +176,7 @@ namespace Chapeau25.Repositories
 
             return new OrderItem(OrderItemID, ItemName, ItemPrice, Quantity, orderItemStatus, type);
         }
-        public void ChangeKitchenOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
+        public void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -345,7 +345,7 @@ namespace Chapeau25.Repositories
              }
         */
 
-        public void ChangeBarOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
+     /*   public void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -364,6 +364,7 @@ namespace Chapeau25.Repositories
             }
 
         }
+     */
 
        /*   public List<Order> GetServedBarOrders()
         {

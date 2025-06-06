@@ -43,7 +43,7 @@ namespace Chapeau25.Controllers
         [HttpPost]
         public IActionResult ChangeKitchenOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
-            _kitchenBarService.ChangeKitchenOrderItemStatus(orderItemId, orderItemStatus);
+            _kitchenBarService.ChangeOrderItemStatus(orderItemId, orderItemStatus);
             return RedirectToAction("CurrentKitchenOrders");
         }
         [HttpPost]
@@ -74,7 +74,7 @@ namespace Chapeau25.Controllers
         [HttpPost]
         public IActionResult ChangeBarOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
-            _kitchenBarService.ChangeKitchenOrderItemStatus(orderItemId, orderItemStatus);
+            _kitchenBarService.ChangeOrderItemStatus(orderItemId, orderItemStatus);
             return RedirectToAction("CurrentBarOrders");
         }
 

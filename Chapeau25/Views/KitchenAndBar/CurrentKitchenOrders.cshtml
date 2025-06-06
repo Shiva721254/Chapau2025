@@ -23,7 +23,7 @@
                     <span class="me-3">Main Course Meal</span>
                     Order: <strong>@order.OrderId</strong>
 
-                    <form method="post" action="/KitchenAndBar/ChangeFoodOrDrinkStatus" class="mt-2">
+                    <form method="post" action="/KitchenAndBar/ChangeEntireFoodStatus" class="mt-2">
                         <input type="hidden" name="orderId" value="@order.OrderId" />
                         <input type="hidden" name="isDrink" value="false" />
                         @{

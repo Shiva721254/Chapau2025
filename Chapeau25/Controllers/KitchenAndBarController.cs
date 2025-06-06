@@ -56,10 +56,16 @@ namespace Chapeau25.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeFoodOrDrinkStatus(int orderId, bool isDrink, OrderItemStatus orderItemStatus)
+        public IActionResult ChangeEntireFoodStatus(int orderId, bool isDrink, OrderItemStatus orderItemStatus)
         {
             _kitchenBarService.ChangeEntireOrderStatus(orderId,isDrink, orderItemStatus);
             return RedirectToAction("CurrentKitchenOrders");
+        }
+
+        public IActionResult ChangeEntireDrinkStatus(int orderId, bool isDrink, OrderItemStatus orderItemStatus)
+        {
+            _kitchenBarService.ChangeEntireOrderStatus(orderId, isDrink, orderItemStatus);
+            return RedirectToAction("CurrentBarOrders");
         }
 
         [HttpPost]
@@ -78,6 +84,12 @@ namespace Chapeau25.Controllers
             return RedirectToAction("CurrentBarOrders");
         }
 
-       
+        [HttpPost]
+        public IActionResult GetBackBarOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
+        {
+            _kitchenBarService.ChangeOrderItemStatus(orderItemId, orderItemStatus);
+            return RedirectToAction("ServedBarOrders");
+        }
+
     }
 }

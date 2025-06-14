@@ -1,6 +1,8 @@
-﻿using Chapeau25.Models;
+﻿using Chapeau25.Enums;
+using Chapeau25.Models;
 using Chapeau25.Repositories;
 using Chapeau25.Service;
+using NuGet.Protocol.Core.Types;
 
 namespace Chapeau25.Services
 {
@@ -8,33 +10,41 @@ namespace Chapeau25.Services
     {
         private readonly IKitchenAndBarRepositories _KitchenAndBarRepo;
 
-        public KitchenAndBarService(IKitchenAndBarRepositories ServiceRepo)
+        public KitchenAndBarService(IKitchenAndBarRepositories Repo)
         {
-            _KitchenAndBarRepo = ServiceRepo;
+            _KitchenAndBarRepo = Repo;
         }
 
-        public List<Order> GetCurrentKitchenOrders() => _KitchenAndBarRepo.GetCurrentKitchenOrders();
-
-        public void ChangeKitchenOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
+        public List<Order> GetCurrentKitchenOrders()
         {
-            _KitchenAndBarRepo.ChangeKitchenOrderItemStatus(orderItemId, orderItemStatus);
+           return  _KitchenAndBarRepo.GetOrders(OrderFetchFilter.KitchenCurrent);
+        }
+        public List<Order> GetServedKitchenOrders()
+        {
+            return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.KitchenServed);
+        }
+        public List<Order> GetCurrentBarOrders()
+        { 
+             return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.BarCurrent); 
+        }
+        public List<Order> GetServedBarOrders()
+        {
+
+            return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.BarServed);
+        }
+        public void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
+        {
+            _KitchenAndBarRepo.ChangeOrderItemStatus(orderItemId, orderItemStatus);
         }
         public void ChangeKitchenCourseStatus(int orderId, string course, OrderItemStatus courseStatus)
         { 
             _KitchenAndBarRepo.ChangeKitchenCourseStatus(orderId, course, courseStatus);
         }
-        public void ChangeWholeOrderStatus(int orderId, OrderItemStatus status)
-        { 
-             _KitchenAndBarRepo.ChangeWholeOrderStatus(orderId, status);
+        public void ChangeEntireOrderStatus(int orderId,  bool isDrink,OrderItemStatus status)
+        {
+            _KitchenAndBarRepo.ChangeEntireOrderStatusByType(orderId, isDrink, status);
         }
-        public List<Order> GetServedKitchenOrders() => _KitchenAndBarRepo.GetServedKitchenOrders();
 
-        public List<Order> GetCurrentBarOrders() => _KitchenAndBarRepo.GetCurrentBarOrders();
 
-        public void ChangeBarOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
-        { 
-             _KitchenAndBarRepo.ChangeBarOrderItemStatus(orderItemId, orderItemStatus);
-        }
-        public List<Order> GetServedBarOrders() => _KitchenAndBarRepo.GetServedBarOrders();
     }
 }

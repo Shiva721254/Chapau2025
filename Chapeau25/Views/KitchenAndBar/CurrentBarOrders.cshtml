@@ -1,11 +1,12 @@
-﻿@model List<Chapeau25.Models.Order>
+﻿@using Chapeau25.Enums
+@model List<Chapeau25.Models.Order>
 @{
 	ViewData["Title"] = "Kitchen - Running Orders";
 }
 <header>
 	<partial name="_TopMenuKitchenAndBar" />
 </header>
-<div class="d-flex flex-wrap gap-4">
+<div class="d-flex flex-wrap gap-4"> 
 	@foreach (var order in Model)
 	{
 		<div class="card shadow" style="width: 23%; min-width: 250px; border-radius: 15px;">
@@ -13,85 +14,54 @@
 				<div>
 					<i class="bi bi-clock"></i> @order.OrderdTime.ToString(@"hh\:mm")
 					<span class="ms-2">Table: <strong>#@order.TableNumber</strong></span>
-				</div>
-			
-			</div>
-			@{
-				// Define the order of course types
-				var courseOrder = new Dictionary<string, int>
-				{
-				{ "Starter", 1 },
-				{ "Main", 2 },
-				{ "Dessert", 3 }
-				};
+					<div class="text-end">
+						<span class="me-3">Main Course Meal</span>
+						Order: <strong>@order.OrderId</strong>
 
-				// Group items by type (Starter/Main/Dessert) and sort them based on courseOrder
-				var groupedItems = order.OrderItems
-				.GroupBy(item => item.Type)
-				.OrderBy(group => courseOrder.ContainsKey(group.Key) ? courseOrder[group.Key] : 99)
-				.ToList();
-			}
-			<!-- Order Items -->
-			@foreach (var group in groupedItems)
-			{
-				// Get the most advanced status in this course group
-				//string? courseStatus = course.Max(oi => oi.CourseStatus);
-				string courseStatus = "Ordered";
+						<form method="post" action="/KitchenAndBar/ChangeEntireDrinkStatus" class="mt-2">
+							<input type="hidden" name="orderId" value="@order.OrderId" />
+							<input type="hidden" name="isDrink" value="true" />
 
-				if (group.All(oi => oi.CourseStatus == "Ordered"))
-				{
-					courseStatus = "Ordered";
-				}
-				else if (group.All(oi => oi.CourseStatus == "Preparing"))
-				{
-					courseStatus = "Preparing";
-				}
-				else if (group.All(oi => oi.CourseStatus == "Ready"))
-				{
-					courseStatus = "Ready";
-				}
-				else
-				{
-					courseStatus = "Served";
-				}
+							@{
+								var allStatuses = order.OrderItems.Select(oi => oi.OrderItemStatus).ToList();
+								string nextStatus = "Ordered";
 
-				<div class="mb-3">
-					<div style="background-color:#d5d5d5;display:flex;justify-content:space-between;align-items:center;padding:6px 15px;">
-						<h6>@group.Key</h6>
-						<div>
-							<form method="post" action="/KitchenAndBar/ChangeBarOrderItemStatus">
-								<input type="hidden" name="orderId" value="@order.OrderId" />
-								<input type="hidden" name="course" value="@group.Key" />
-
-								@if (courseStatus == "Ordered")
+								if (allStatuses.All(s => s == OrderItemStatus.Ordered))
 								{
-									<button type="submit" name="courseStatus" value="Preparing" class="btn btn-warning">
-										Ordered
-									</button>
+									nextStatus = "Preparing";
 								}
-								else if (courseStatus == "Preparing")
+								else if (allStatuses.All(s => s == OrderItemStatus.Preparing))
 								{
-									<button type="submit" name="courseStatus" value="Ready" class="btn btn-success">
-										Preparing
-									</button>
+									nextStatus = "Ready";
 								}
-								else if (courseStatus == "Ready")
+								else if (allStatuses.All(s => s == OrderItemStatus.Ready))
 								{
-									<button type="submit" name="courseStatus" value="Served" class="btn btn-success">
-										Ready
-									</button>
+									nextStatus = "Served";
 								}
 								else
 								{
-									<button type="submit" class="btn btn-success">
-										Served
-									</button>
+									nextStatus = "Served"; // fallback for mixed statuses
 								}
-							</form>
+							}
 
-						</div>
+							<button type="submit" name="orderItemStatus" value="@nextStatus" class="btn btn-outline-light btn-sm">
+								Set All to @nextStatus
+							</button>
+						</form>
 					</div>
-					@foreach (OrderItem item in group)
+				</div>
+			
+			</div>
+			
+			<!-- Order Items -->
+		
+			
+
+				<div class="mb-3">
+					<div style="background-color:#d5d5d5;display:flex;justify-content:space-between;align-items:center;padding:6px 15px;">
+						
+					</div>
+				@foreach (OrderItem item in order.OrderItems)
 					{
 						<div class="d-flex justify-content-between align-items-start mb-2" style="padding:6px 15px;">
 							<div>

@@ -11,7 +11,7 @@ namespace Chapeau25
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddScoped<IKitchenAndBarRepositories, KitchenAndBarRepositories>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IKitchenAndBarService, KitchenAndBarService>();
 
             builder.Services.AddControllersWithViews();

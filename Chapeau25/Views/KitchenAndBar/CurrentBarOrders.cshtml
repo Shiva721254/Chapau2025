@@ -1,22 +1,25 @@
 ﻿@using Chapeau25.Enums
-@model List<Chapeau25.Models.Order>
+@model List<Chapeau25.ViewModel.BarAndKitchenViewModel>
 @{
 	ViewData["Title"] = "Kitchen - Running Orders";
 }
 <header>
 	<partial name="_TopMenuKitchenAndBar" />
+	
 </header>
-<div class="d-flex flex-wrap gap-4"> 
+<div class="d-flex flex-wrap gap-4">
+
 	@foreach (var order in Model)
 	{
 		<div class="card shadow" style="width: 23%; min-width: 250px; border-radius: 15px;">
-			<div class="card-header d-flex justify-content-between align-items-center bg-primary text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
-				<div>
-					<i class="bi bi-clock"></i> @order.OrderdTime.ToString(@"hh\:mm")
-					<span class="ms-2">Table: <strong>#@order.TableNumber</strong></span>
-					<div class="text-end">
-						<span class="me-3">Main Course Meal</span>
-						Order: <strong>@order.OrderId</strong>
+		   <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <div>
+					<p class="bi bi-clock">Waiting time: @order.RunningTime.ToString(@"hh\:mm")</p>
+					<small class="bi bi-clock">ordered time: @order.OrderdTime.ToString(@"hh\:mm")</small>
+                    <p >Table: @order.TableNumber</p>
+                </div>
+                <div class="text-end">
+                    <p class="me-3"> Drinks Item</p>
 
 						<form method="post" action="/KitchenAndBar/ChangeEntireDrinkStatus" class="mt-2">
 							<input type="hidden" name="orderId" value="@order.OrderId" />
@@ -48,7 +51,7 @@
 								Set All to @nextStatus
 							</button>
 						</form>
-					</div>
+				
 				</div>
 			
 			</div>
@@ -97,7 +100,7 @@
 					}
 
 				</div>
-			}
+		
 
 		</div>
 

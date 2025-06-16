@@ -1,22 +1,25 @@
 ﻿using Chapeau25.Enums;
 using Chapeau25.Models;
 using Chapeau25.Service;
+using Chapeau25.ViewModel;
 using Microsoft.Data.SqlClient;
 using static NuGet.Packaging.PackagingConstants;
 
 namespace Chapeau25.Repositories
 {
-    public class KitchenAndBarRepositories : IKitchenAndBarRepositories
+    public class OrderRepository : IOrderRepository
     {
 
         private readonly string? _connectionString;
-        public KitchenAndBarRepositories(IConfiguration configuration)
+        public OrderRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("chapeau2025Database");
         }
-        public List<Order> GetOrders(OrderFetchFilter filter)
+
+
+        public List<BarAndKitchenViewModel> GetOrders(OrderFetchFilter filter)
         {
-            var orders = new List<Order>();
+            var orders = new List<BarAndKitchenViewModel>();
 
             using var connection = new SqlConnection(_connectionString);
 
@@ -28,16 +31,16 @@ namespace Chapeau25.Repositories
             connection.Open();
 
             int lastOrderId = -1;
-            Order? currentOrder = null;
+            BarAndKitchenViewModel? currentOrder = null;
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                int currentOrderId = (int)reader["OrderId"];
+                int currentOrderId = (int)reader["OrderId"]; 
 
                 // If it's a new order, create a new Order object and add to the list
-                if (currentOrderId != lastOrderId)
-                {
+                if (currentOrderId != lastOrderId) 
+                { 
                     currentOrder = ReadOrder(reader);
                     orders.Add(currentOrder);
                     lastOrderId = currentOrderId;
@@ -89,14 +92,14 @@ namespace Chapeau25.Repositories
             return (query, parameters);
         }
 
-        private Order ReadOrder(SqlDataReader reader)
+        private BarAndKitchenViewModel ReadOrder(SqlDataReader reader)
         {
             int OrderId = (int)reader["OrderId"];
             string EmployeeName = (string)reader["EmployeeName"];
             OrderItemStatus OrderStatus = Enum.Parse<OrderItemStatus>(reader["OrderStatus"].ToString());
             int TableNumber = (int)reader["TableNumber"];
-            DateTime OrderdTime = (DateTime)reader["OrderedTime"]; 
-            Order order = new Order(OrderId, EmployeeName, OrderStatus, TableNumber, OrderdTime,new List<OrderItem>());
+            DateTime OrderdTime = (DateTime)reader["OrderedTime"];
+            BarAndKitchenViewModel order = new BarAndKitchenViewModel(OrderId, EmployeeName, OrderStatus, TableNumber, OrderdTime,new List<OrderItem>());
           
             return order;
             
@@ -107,17 +110,18 @@ namespace Chapeau25.Repositories
             int OrderItemID = (int)reader["OrderItemID"];
             string ItemName = (string)reader["ItemName"];
             string type = (string)reader["type"];
-        //    string comment = (string)reader["comment"];
+            string comment = reader["comment"] != DBNull.Value ? reader["comment"].ToString() : "";
             decimal ItemPrice = (decimal)reader["ItemPrice"];
             int Quantity = (int)reader["Quantity"];
-
             OrderItemStatus orderItemStatus = reader["OrderStatus"] == DBNull.Value ? OrderItemStatus.Ordered : (OrderItemStatus)Enum.Parse(typeof(OrderItemStatus), reader["OrderStatus"].ToString());
 
 
 
 
-            return new OrderItem(OrderItemID, ItemName, ItemPrice, Quantity, orderItemStatus, type);
+            return new OrderItem(OrderItemID, ItemName, ItemPrice, Quantity, orderItemStatus, type, comment);
         }
+
+
         public void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
@@ -161,7 +165,7 @@ namespace Chapeau25.Repositories
 
         }
 
-        public void ChangeEntireOrderStatusByType(int orderId,  bool isDrink,OrderItemStatus status)
+        public void ChangeEntireOrderStatusByType(int orderId,  bool isDrink, OrderItemStatus status)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

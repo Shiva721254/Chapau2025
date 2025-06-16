@@ -1,12 +1,13 @@
 ﻿using Chapeau25.Enums;
 using Chapeau25.Models;
+using Chapeau25.ViewModel;
 
 namespace Chapeau25.Repositories
 {
-    public interface IKitchenAndBarRepositories
+    public interface IOrderRepository
     {
       
-        public List<Order> GetOrders(OrderFetchFilter filter);
+        public List<BarAndKitchenViewModel> GetOrders(OrderFetchFilter filter);
 
         void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus);
 

@@ -2,32 +2,33 @@
 using Chapeau25.Models;
 using Chapeau25.Repositories;
 using Chapeau25.Service;
+using Chapeau25.ViewModel;
 using NuGet.Protocol.Core.Types;
 
 namespace Chapeau25.Services
 {
     public class KitchenAndBarService : IKitchenAndBarService
     {
-        private readonly IKitchenAndBarRepositories _KitchenAndBarRepo;
+        private readonly IOrderRepository _KitchenAndBarRepo;
 
-        public KitchenAndBarService(IKitchenAndBarRepositories Repo)
+        public KitchenAndBarService(IOrderRepository Repo)
         {
             _KitchenAndBarRepo = Repo;
         }
 
-        public List<Order> GetCurrentKitchenOrders()
+        public List<BarAndKitchenViewModel> GetCurrentKitchenOrders()
         {
            return  _KitchenAndBarRepo.GetOrders(OrderFetchFilter.KitchenCurrent);
         }
-        public List<Order> GetServedKitchenOrders()
+        public List<BarAndKitchenViewModel> GetServedKitchenOrders()
         {
             return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.KitchenServed);
         }
-        public List<Order> GetCurrentBarOrders()
+        public List<BarAndKitchenViewModel> GetCurrentBarOrders()
         { 
              return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.BarCurrent); 
         }
-        public List<Order> GetServedBarOrders()
+        public List<BarAndKitchenViewModel> GetServedBarOrders()
         {
 
             return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.BarServed);

@@ -1,5 +1,5 @@
 ﻿@using Chapeau25.Enums
-@model List<Chapeau25.Models.Order>
+@model List<Chapeau25.ViewModel.BarAndKitchenViewModel>
 
 @{
     ViewData["Title"] = "Kitchen - Running Orders";
@@ -16,12 +16,14 @@
         <div class="card shadow" style="width: 23%; min-width: 250px; border-radius: 15px;">
             <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
                 <div>
-                    <i class="bi bi-clock"></i> @order.OrderdTime.ToString(@"hh\:mm")
-                    <span class="ms-2">Table: <strong>#@order.TableNumber</strong></span>
+                    <P class="bi bi-clock">Waiting time: @order.RunningTime.ToString(@"hh\:mm")</P>
+                    <small class="bi bi-clock">Ordered time: @order.OrderdTime.ToString(@"hh\:mm")</small>
+
+                    <p >Table: @order.TableNumber</p>
                 </div>
                 <div class="text-end">
-                    <span class="me-3">Main Course Meal</span>
-                    Order: <strong>@order.OrderId</strong>
+                    <p class="me-3"> Food Item</p>
+                  
 
                     <form method="post" action="/KitchenAndBar/ChangeEntireFoodStatus" class="mt-2">
                         <input type="hidden" name="orderId" value="@order.OrderId" />
@@ -46,10 +48,10 @@
                             {
                                 nextStatus = "Served"; // fallback for mixed statuses
                             }
-                        }
+                         }
 
                         <button type="submit" name="orderItemStatus" value="@nextStatus" class="btn btn-outline-light btn-sm">
-                            Set All to @nextStatus
+                            Set All @nextStatus
                         </button>
                     </form>
                 </div>
@@ -122,6 +124,8 @@
                         <div class="d-flex justify-content-between align-items-start mb-2" style="padding:6px 15px;">
                             <div>
                                 <strong>@item.Quantity x @item.ItemName</strong>
+                                <br/>
+                                <small>@item.Comment</small>
                             </div>
                             <div>
                                 <form method="post" action="/KitchenAndBar/ChangeKitchenOrderItemStatus">

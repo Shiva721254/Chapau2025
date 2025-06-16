@@ -9,7 +9,7 @@ namespace Chapeau25.Models
         public decimal ItemPrice { get; set; }
         public int Quantity { get; set; }
         public string Type { get; set; }
-       // public string Comment { get; set; }
+        public string Comment { get; set; }
         public decimal Price { 
             get
             {
@@ -46,7 +46,7 @@ namespace Chapeau25.Models
         }
      
 
-        public OrderItem(int orderItemID, string itemName, decimal itemPrice, int quantity, OrderItemStatus orderItemStatus, string type)    
+        public OrderItem(int orderItemID, string itemName, decimal itemPrice, int quantity, OrderItemStatus orderItemStatus, string type, string comment)    
         {
             OrderItemID = orderItemID;
             ItemName = itemName;
@@ -54,7 +54,7 @@ namespace Chapeau25.Models
             Quantity = quantity;
             OrderItemStatus = orderItemStatus;
             Type = type;
-          //  Comment = comment;
+            Comment = comment;
 
         }
     }

@@ -27,6 +27,7 @@ namespace Chapeau25
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();

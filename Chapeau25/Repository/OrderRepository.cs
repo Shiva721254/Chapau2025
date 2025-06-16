@@ -17,7 +17,7 @@ namespace Chapeau25.Repositories
         }
 
 
-        public List<BarAndKitchenViewModel> GetOrders(OrderFetchFilter filter)
+        public List<BarAndKitchenViewModel> GetOrders(OrderFilter filter)
         {
             var orders = new List<BarAndKitchenViewModel>();
 
@@ -54,10 +54,10 @@ namespace Chapeau25.Repositories
         }
 
 
-        private (string query, SqlParameter[] parameters) BuildSimpleQuery(OrderFetchFilter filter)
+        private (string query, SqlParameter[] parameters) BuildSimpleQuery(OrderFilter filter)
         {
-            bool showServed = filter == OrderFetchFilter.KitchenServed || filter == OrderFetchFilter.BarServed;
-            bool showDrinks = filter == OrderFetchFilter.BarCurrent || filter == OrderFetchFilter.BarServed;
+            bool showServed = filter == OrderFilter.KitchenServed || filter == OrderFilter.BarServed;
+            bool showDrinks = filter == OrderFilter.BarCurrent || filter == OrderFilter.BarServed;
 
             // SQL query template
             string query = @"
@@ -96,10 +96,10 @@ namespace Chapeau25.Repositories
         {
             int OrderId = (int)reader["OrderId"];
             string EmployeeName = (string)reader["EmployeeName"];
-            OrderItemStatus OrderStatus = Enum.Parse<OrderItemStatus>(reader["OrderStatus"].ToString());
+           
             int TableNumber = (int)reader["TableNumber"];
             DateTime OrderdTime = (DateTime)reader["OrderedTime"];
-            BarAndKitchenViewModel order = new BarAndKitchenViewModel(OrderId, EmployeeName, OrderStatus, TableNumber, OrderdTime,new List<OrderItem>());
+            BarAndKitchenViewModel order = new BarAndKitchenViewModel(OrderId, EmployeeName, TableNumber, OrderdTime,new List<OrderItem>());
           
             return order;
             

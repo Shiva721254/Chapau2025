@@ -18,20 +18,20 @@ namespace Chapeau25.Services
 
         public List<BarAndKitchenViewModel> GetCurrentKitchenOrders()
         {
-           return  _KitchenAndBarRepo.GetOrders(OrderFetchFilter.KitchenCurrent);
+           return  _KitchenAndBarRepo.GetOrders(OrderFilter.KitchenCurrent);
         }
         public List<BarAndKitchenViewModel> GetServedKitchenOrders()
         {
-            return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.KitchenServed);
+            return _KitchenAndBarRepo.GetOrders(OrderFilter.KitchenServed);
         }
         public List<BarAndKitchenViewModel> GetCurrentBarOrders()
         { 
-             return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.BarCurrent); 
+             return _KitchenAndBarRepo.GetOrders(OrderFilter.BarCurrent); 
         }
         public List<BarAndKitchenViewModel> GetServedBarOrders()
         {
 
-            return _KitchenAndBarRepo.GetOrders(OrderFetchFilter.BarServed);
+            return _KitchenAndBarRepo.GetOrders(OrderFilter.BarServed);
         }
         public void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {

@@ -7,7 +7,7 @@ namespace Chapeau25.Repositories
     public interface IOrderRepository
     {
       
-        public List<BarAndKitchenViewModel> GetOrders(OrderFetchFilter filter);
+        public List<BarAndKitchenViewModel> GetOrders(OrderFilter filter);
 
         void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus);
 

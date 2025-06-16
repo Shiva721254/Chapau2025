@@ -8,7 +8,6 @@ namespace Chapeau25.ViewModel
 
         public int OrderId { get; set; }
         public string EmployeeName { get; set; }
-        public OrderItemStatus OrderStatus { get; set; }
         public int TableNumber { get; set; }
         public DateTime OrderdTime { get; set; }
         public TimeSpan RunningTime
@@ -19,23 +18,16 @@ namespace Chapeau25.ViewModel
             }
         }
         public List<OrderItem> OrderItems { get; set; }
-
-
-
-
         public BarAndKitchenViewModel()
         {
 
 
         }
 
-
-
-        public BarAndKitchenViewModel(int orderId, string employeeName, OrderItemStatus orderStatus, int tableNumber, DateTime orderdTime, List<OrderItem> orderItems)
+        public BarAndKitchenViewModel(int orderId, string employeeName,  int tableNumber, DateTime orderdTime, List<OrderItem> orderItems)
         {
             OrderId = orderId;
             EmployeeName = employeeName;
-            OrderStatus = orderStatus;
             TableNumber = tableNumber;
             OrderdTime = orderdTime;
             OrderItems = new List<OrderItem>();

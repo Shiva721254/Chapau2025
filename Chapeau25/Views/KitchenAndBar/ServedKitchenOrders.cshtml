@@ -42,15 +42,15 @@
 				//string? courseStatus = course.Max(oi => oi.CourseStatus);
 				string courseStatus = "Ordered";
 
-				if (group.All(oi => oi.CourseStatus == "Ordered"))
+				if (group.All(oi => oi.OrderItemStatus == OrderItemStatus.Ordered))
 				{
 					courseStatus = "Ordered";
 				}
-				else if (group.All(oi => oi.CourseStatus == "Preparing"))
+				else if (group.All(oi => oi.OrderItemStatus == OrderItemStatus.Ordered))
 				{
 					courseStatus = "Preparing";
 				}
-				else if (group.All(oi => oi.CourseStatus == "Ready"))
+				else if (group.All(oi => oi.OrderItemStatus == OrderItemStatus.Ordered))
 				{
 					courseStatus = "Ready";
 				}

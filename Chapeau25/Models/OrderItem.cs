@@ -15,30 +15,9 @@ namespace Chapeau25.Models
             {
                 return ItemPrice * Quantity;
             }
-                }
-       public OrderItemStatus OrderItemStatus { get; set; }
-        public string CourseStatus
-        {
-            get
-            {
-                if (OrderItemStatus == OrderItemStatus.Ordered)
-                {
-                    return "Ordered";
-                }
-                else if (OrderItemStatus == OrderItemStatus.Preparing)
-                {
-                    return "Preparing";
-                }
-                else if (OrderItemStatus == OrderItemStatus.Ready)
-                {
-                    return "Ready";
-                }
-                else
-                {
-                    return "Served";
-                }
-            }
         }
+       public OrderItemStatus OrderItemStatus { get; set; }
+       
 
         public OrderItem()
         {

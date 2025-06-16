@@ -1,6 +1,6 @@
 ﻿namespace Chapeau25.Enums
 {
-    public enum OrderFetchFilter
+    public enum OrderFilter
     {
         KitchenCurrent,
         KitchenServed,

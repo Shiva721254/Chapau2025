@@ -1,4 +1,6 @@
-﻿namespace Chapeau25.Enums
+﻿
+
+namespace Chapeau25.Enums
 {
     public enum OrderFilter
     {

@@ -67,7 +67,7 @@
 
                 var groupedItems = order.OrderItems
                 .GroupBy(item => item.Type)
-                .OrderBy(group => courseOrder.ContainsKey(group.Key) ? courseOrder[group.Key] : 99)
+                .OrderBy(group => courseOrder.ContainsKey(group.Key) ? courseOrder[group.Key] : 7)
                 .ToList();
             }
 
@@ -118,7 +118,7 @@
                             }
                         </form>
                     </div>
-
+              
                     @foreach (OrderItem item in group)
                     {
                         <div class="d-flex justify-content-between align-items-start mb-2" style="padding:6px 15px;">

@@ -9,41 +9,41 @@ namespace Chapeau25.Services
 {
     public class KitchenAndBarService : IKitchenAndBarService
     {
-        private readonly IOrderRepository _KitchenAndBarRepo;
+        private readonly IOrderRepository _OrderRepo;
 
         public KitchenAndBarService(IOrderRepository Repo)
         {
-            _KitchenAndBarRepo = Repo;
+            _OrderRepo = Repo;
         }
 
         public List<BarAndKitchenViewModel> GetCurrentKitchenOrders()
         {
-           return  _KitchenAndBarRepo.GetOrders(OrderFilter.KitchenCurrent);
+           return _OrderRepo.GetOrders(OrderFilter.KitchenCurrent);
         }
         public List<BarAndKitchenViewModel> GetServedKitchenOrders()
         {
-            return _KitchenAndBarRepo.GetOrders(OrderFilter.KitchenServed);
+            return _OrderRepo.GetOrders(OrderFilter.KitchenServed);
         }
         public List<BarAndKitchenViewModel> GetCurrentBarOrders()
         { 
-             return _KitchenAndBarRepo.GetOrders(OrderFilter.BarCurrent); 
+             return _OrderRepo.GetOrders(OrderFilter.BarCurrent); 
         }
         public List<BarAndKitchenViewModel> GetServedBarOrders()
         {
 
-            return _KitchenAndBarRepo.GetOrders(OrderFilter.BarServed);
+            return _OrderRepo.GetOrders(OrderFilter.BarServed);
         }
         public void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
-            _KitchenAndBarRepo.ChangeOrderItemStatus(orderItemId, orderItemStatus);
+            _OrderRepo.ChangeOrderItemStatus(orderItemId, orderItemStatus);
         }
         public void ChangeKitchenCourseStatus(int orderId, string course, OrderItemStatus courseStatus)
-        { 
-            _KitchenAndBarRepo.ChangeKitchenCourseStatus(orderId, course, courseStatus);
+        {
+            _OrderRepo.ChangeKitchenCourseStatus(orderId, course, courseStatus);
         }
         public void ChangeEntireOrderStatus(int orderId,  bool isDrink,OrderItemStatus status)
         {
-            _KitchenAndBarRepo.ChangeEntireOrderStatusByType(orderId, isDrink, status);
+            _OrderRepo.ChangeEntireOrderStatusByType(orderId, isDrink, status);
         }
 
 

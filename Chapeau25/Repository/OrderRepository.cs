@@ -116,8 +116,6 @@ namespace Chapeau25.Repositories
             OrderItemStatus orderItemStatus = reader["OrderStatus"] == DBNull.Value ? OrderItemStatus.Ordered : (OrderItemStatus)Enum.Parse(typeof(OrderItemStatus), reader["OrderStatus"].ToString());
 
 
-
-
             return new OrderItem(OrderItemID, ItemName, ItemPrice, Quantity, orderItemStatus, type, comment);
         }
 
@@ -161,7 +159,7 @@ namespace Chapeau25.Repositories
 
           
                 connection.Open();
-                int rowsAffected = command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
         }
 

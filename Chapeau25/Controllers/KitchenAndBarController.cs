@@ -168,6 +168,7 @@ namespace Chapeau25.Controllers
             {
                 TempData["ErrorMessage"] = $"Error updating bar item #{orderItemId}.";
             }
+
             return RedirectToAction("CurrentBarOrders");
         }
 
@@ -183,6 +184,7 @@ namespace Chapeau25.Controllers
             {
                 TempData["ErrorMessage"] = $"Error restoring bar item #{orderItemId}.";
             }
+
             return RedirectToAction("ServedBarOrders");
         }
     }

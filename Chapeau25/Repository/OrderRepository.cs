@@ -73,8 +73,8 @@ namespace Chapeau25.Repositories
                     oi.comment,
                     oi.Quantity,
                     m.type
-                FROM Orders o
-                JOIN [Table] t ON o.table_id = t.table_id
+                FROM Orders_old o
+                JOIN [Table] t ON o.order_id = t.table_id
                 JOIN Employee e ON o.employee_id = e.employee_id
                 JOIN ORDER_ITEM oi ON o.order_id = oi.order_id
                 JOIN MENU_ITEM m ON oi.menuitem_id = m.menuitem_id
@@ -129,8 +129,8 @@ namespace Chapeau25.Repositories
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
-                cmd.Parameters.AddWithValue("@OrderItemStatus", orderItemStatus.ToString());
-                cmd.Parameters.AddWithValue("@orderItemId", orderItemId); 
+                cmd.Parameters.AddWithValue("@OrderItemStatus", orderItemStatus.ToString());  // preparing 
+                cmd.Parameters.AddWithValue("@orderItemId", orderItemId);                     // 34
 
                 
                     conn.Open();
@@ -153,9 +153,9 @@ namespace Chapeau25.Repositories
                         ";
 
                 using var command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@status", status.ToString());     // e.g., "Preparing"
-                command.Parameters.AddWithValue("@orderId", orderId);              // e.g., 101
-                command.Parameters.AddWithValue("@courseType", courseType);        // e.g., "Main"
+                command.Parameters.AddWithValue("@status", status.ToString());     //  "Preparing"
+                command.Parameters.AddWithValue("@orderId", orderId);              //   101
+                command.Parameters.AddWithValue("@courseType", courseType);        //   "Main"
 
           
                 connection.Open();
@@ -175,8 +175,8 @@ namespace Chapeau25.Repositories
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@status", status.ToString());
-                    command.Parameters.AddWithValue("@orderId", orderId);
+                    command.Parameters.AddWithValue("@status", status.ToString());    // Preparing
+                    command.Parameters.AddWithValue("@orderId", orderId);             // 102
 
                     connection.Open();
                     command.ExecuteNonQuery();

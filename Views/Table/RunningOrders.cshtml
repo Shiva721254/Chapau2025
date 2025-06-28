@@ -1,0 +1,33 @@
+@model IEnumerable<Chapeau25.Models.TableOrderStatusViewModel>
+
+<h2>Running Orders by Table</h2>
+
+<form method="get">
+    <button type="submit" class="btn btn-primary">Refresh</button>
+</form>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Table Number</th>
+            <th>Order(s)</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var table in Model)
+    {
+        <tr>
+            <td>@table.TableNumber</td>
+            <td>
+                @foreach (var order in table.Orders)
+                {
+                    <div>
+                        <strong>Order #@order.OrderId</strong> - @order.Type - 
+                        <span>@order.StatusDisplay</span>
+                    </div>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

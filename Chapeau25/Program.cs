@@ -1,3 +1,4 @@
+using Chapeau25.ExtentionMethods;
 using Chapeau25.Repositories;
 using Chapeau25.Service;
 using Chapeau25.Services;
@@ -16,6 +17,15 @@ namespace Chapeau25
 
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            builder.Services.AddHttpContextAccessor();
+            DatabaseHelper.Initialize(builder.Configuration);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -30,6 +40,8 @@ namespace Chapeau25
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 

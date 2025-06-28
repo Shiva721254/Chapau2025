@@ -1,10 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
 <div class="text-center">
-    <header>
+    <header style="position: relative;">
         <partial name="_Topmenu" />
+        <div style="position: absolute; top: 0; right: 0; margin: 16px;">
+            @if (HttpContextAccessor.HttpContext.Session.GetInt32("EmployeeId") != null)
+            {
+                @await Html.PartialAsync("_LogOffButton")
+            }
+        </div>
     </header>
     <h1 class="display-4">Welcome to Chapeau Restaurant</h1>
 
@@ -17,7 +25,16 @@
                         <div class="card-body">
                             <h5 class="card-title">Kitchen Monitor</h5>
                             <p class="card-text">Track the preparation status of all current orders.</p>
-                            <a href="/KitchenAndBar" class="btn btn-outline-primary">Go to Bar & Kitchen</a>
+                            <a asp-controller="Table" asp-action="Orders" class="btn btn-outline-primary">Go to Bar & Kitchen</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Table Status</h5>
+                            <p class="card-text">View and manage the status of all tables.</p>
+                            <a asp-controller="Table" asp-action="ManageStatus" class="btn btn-outline-secondary">Go to Table Status</a>
                         </div>
                     </div>
                 </div>

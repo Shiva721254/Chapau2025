@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Chapeau25.Models.TableOrderStatusViewModel>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Order Status";
+    var isLoggedIn = HttpContextAccessor.HttpContext.Session.GetInt32("EmployeeId") != null;
+}
+
+@if (!isLoggedIn)
+{
+    <div class="alert alert-warning mt-4">
+        <h4>You need to be authenticated to access this.</h4>
+        <a asp-controller="Login" asp-action="Login" class="btn btn-primary mt-3">Go to Login</a>
+    </div>
+    return;
+}
+
+<div class="text-end" style="margin: 16px;">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary me-2">Home</a>
+    @if (isLoggedIn)
+    {
+        <a asp-controller="Login" asp-action="LogOff" class="btn btn-outline-primary">Log Off</a>
+        <!-- Or, if you want to keep using the partial, ensure it uses btn btn-outline-primary -->
+        <!-- @await Html.PartialAsync("_LogOffButton") -->
+    }
+</div>
+
+<h2>Running Orders by Table</h2>
+
+<form method="get">
+    <button type="submit" class="btn btn-primary">Refresh</button>
+</form>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Table Number</th>
+            <th>Order(s)</th>
+            <th>Order Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var table in Model)
+        {
+            <tr>
+                <td>@table.TableNumber</td>
+                <td>
+                    @foreach (var order in table.Orders)
+                    {
+                        <div>
+                            <strong>Order #@order.OrderId</strong> - @order.Name
+                        </div>
+                    }
+                </td>
+                <td>
+                    @foreach (var order in table.Orders)
+                    {
+                        <div>
+                            <span class="badge 
+                                @(order.StatusDisplay == "Served" ? "bg-success" : 
+                                  order.StatusDisplay == "Ready" ? "bg-info" : 
+                                  order.StatusDisplay == "Preparing" ? "bg-warning text-dark" : 
+                                  "bg-secondary")">
+                                @order.StatusDisplay
+                            </span>
+                        </div>
+                    }
+                </td>
+                <td>
+                    @foreach (var order in table.Orders)
+                    {
+                        <div>
+                            @if (order.StatusDisplay == "Ready")
+                            {
+                                <form asp-action="SetOrderServed" method="post" style="display:inline;">
+                                    <input type="hidden" name="orderId" value="@order.OrderId" />
+                                    <button type="submit" class="btn btn-success btn-sm">Mark as Served</button>
+                                </form>
+                            }
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

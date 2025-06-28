@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Chapeau25.Models.TableInfo>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Manage Table Status";
+    var isLoggedIn = HttpContextAccessor.HttpContext.Session.GetInt32("EmployeeId") != null;
+}
+
+<h2>Manage Table Status</h2>
+
+<div class="text-end" style="margin: 16px;">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary me-2">Home</a>
+    @if (isLoggedIn)
+    {
+        <a asp-controller="Login" asp-action="LogOff" class="btn btn-outline-primary">Log Off</a>
+        <!-- Or, if you want to keep using the partial: -->
+        <!-- @await Html.PartialAsync("_LogOffButton") -->
+    }
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Table Number</th>
+            <th>Status</th>
+            <th>Change Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var table in Model)
+        {
+            <tr>
+                <td>@table.TableNumber</td>
+                <td>@table.Status</td>
+                <td>
+                    <form asp-action="ChangeStatus" method="post" style="display:inline;">
+                        <input type="hidden" name="tableId" value="@table.TableId" />
+                        <select name="newStatus" class="form-select" style="width:auto;display:inline;">
+                            <option value="Occupied" selected="@(table.Status == "Occupied")">Occupied</option>
+                            <option value="Available" selected="@(table.Status == "Available")" disabled="@(table.Status == "Occupied" && false)">Available</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

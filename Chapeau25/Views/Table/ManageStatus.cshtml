@@ -42,7 +42,11 @@
                         <input type="hidden" name="tableId" value="@table.TableId" />
                         <select name="newStatus" class="form-select" style="width:auto;display:inline;">
                             <option value="Occupied" selected="@(table.Status == "Occupied")">Occupied</option>
-                            <option value="Available" selected="@(table.Status == "Available")" disabled="@(table.Status == "Occupied" && false)">Available</option>
+                            <option value="Available"
+                                selected="@(table.Status == "Available")"
+                                disabled="@(table.Status == "Occupied" && table.HasUnfinishedOrders)">
+                                Available
+                            </option>
                         </select>
                         <button type="submit" class="btn btn-primary btn-sm">Change</button>
                     </form>

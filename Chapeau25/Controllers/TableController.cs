@@ -108,7 +108,15 @@ namespace Chapeau25.Controllers
             using (var conn = ExtentionMethods.DatabaseHelper.GetConnection())
             {
                 conn.Open();
-                var cmd = new SqlCommand("SELECT table_id, table_number, status FROM [Table]", conn);
+                var cmd = new SqlCommand(@"
+                    SELECT t.table_id, t.table_number, t.status, t.capacity,
+                        CASE WHEN EXISTS (
+                            SELECT 1 FROM orders o
+                            JOIN ORDER_ITEM oi ON o.order_id = oi.order_id
+                            WHERE o.table_id = t.table_id AND oi.OrderItemStatus <> 'Served'
+                        ) THEN 1 ELSE 0 END AS HasUnfinishedOrders
+                    FROM [Table] t
+                ", conn);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -117,7 +125,9 @@ namespace Chapeau25.Controllers
                         {
                             TableId = reader.GetInt32(0),
                             TableNumber = reader.GetInt32(1),
-                            Status = reader.GetString(2)
+                            Status = reader.GetString(2),
+                            Capacity = reader.GetInt32(3),
+                            HasUnfinishedOrders = reader.GetInt32(4) == 1
                         });
                     }
                 }

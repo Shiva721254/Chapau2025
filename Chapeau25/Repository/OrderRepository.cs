@@ -7,23 +7,14 @@ using static NuGet.Packaging.PackagingConstants;
 
 namespace Chapeau25.Repositories
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderRepository() : IOrderRepository
     {
-
-        private readonly string? _connectionString;
-        public OrderRepository(IConfiguration configuration)
-        {
-            _connectionString = configuration.GetConnectionString("chapeau2025Database");
-        }
-
-
         public List<BarAndKitchenViewModel> GetOrders(OrderFilter filter)
         {
             var orders = new List<BarAndKitchenViewModel>();
 
-            using var connection = new SqlConnection(_connectionString);
+            var connection = ExtentionMethods.DatabaseHelper.GetConnection();
 
-            // Get the query and parameters based on the selected filter (e.g., kitchen vs bar, served vs not)
             var (query, parameters) = BuildSimpleQuery(filter);
 
             using var command = new SqlCommand(query, connection);
@@ -52,7 +43,6 @@ namespace Chapeau25.Repositories
 
             return orders;
         }
-
 
         private (string query, SqlParameter[] parameters) BuildSimpleQuery(OrderFilter filter)
         {
@@ -94,55 +84,48 @@ namespace Chapeau25.Repositories
 
         private BarAndKitchenViewModel ReadOrder(SqlDataReader reader)
         {
-            int OrderId = (int)reader["OrderId"];
-            string EmployeeName = (string)reader["EmployeeName"];
-           
-            int TableNumber = (int)reader["TableNumber"];
-            DateTime OrderdTime = (DateTime)reader["OrderedTime"];
-            BarAndKitchenViewModel order = new BarAndKitchenViewModel(OrderId, EmployeeName, TableNumber, OrderdTime,new List<OrderItem>());
-          
-            return order;
-            
+            return new BarAndKitchenViewModel(
+                (int)reader["OrderId"],
+                (string)reader["EmployeeName"],
+                (int)reader["TableNumber"],
+                (DateTime)reader["OrderedTime"],
+                new List<OrderItem>()
+            );
         }
 
         private OrderItem ReadOrderItem(SqlDataReader reader)
         {
-            int OrderItemID = (int)reader["OrderItemID"];
-            string ItemName = (string)reader["ItemName"];
-            string type = (string)reader["type"];
-            string comment = reader["comment"] != DBNull.Value ? reader["comment"].ToString() : "";
-            decimal ItemPrice = (decimal)reader["ItemPrice"];
-            int Quantity = (int)reader["Quantity"];
-            OrderItemStatus orderItemStatus = reader["OrderStatus"] == DBNull.Value ? OrderItemStatus.Ordered : (OrderItemStatus)Enum.Parse(typeof(OrderItemStatus), reader["OrderStatus"].ToString());
-
-
-            return new OrderItem(OrderItemID, ItemName, ItemPrice, Quantity, orderItemStatus, type, comment);
+            return new OrderItem(
+                (int)reader["OrderItemID"],
+                (string)reader["ItemName"],
+                (decimal)reader["ItemPrice"],
+                (int)reader["Quantity"],
+                reader["OrderStatus"] == DBNull.Value ? OrderItemStatus.Ordered : (OrderItemStatus)Enum.Parse(typeof(OrderItemStatus), reader["OrderStatus"].ToString()),
+                (string)reader["type"],
+                reader["comment"] != DBNull.Value ? reader["comment"].ToString() : ""
+            );
         }
-
 
         public void ChangeOrderItemStatus(int orderItemId, OrderItemStatus orderItemStatus)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (var conn = ExtentionMethods.DatabaseHelper.GetConnection())
             {
                 string query = "UPDATE ORDER_ITEM SET OrderItemStatus = @OrderItemStatus " +
                                "WHERE orderItem_id = @orderItemId";  
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
-                cmd.Parameters.AddWithValue("@OrderItemStatus", orderItemStatus.ToString());  // preparing 
-                cmd.Parameters.AddWithValue("@orderItemId", orderItemId);                     // 34
+                cmd.Parameters.AddWithValue("@OrderItemStatus", orderItemStatus.ToString());
+                cmd.Parameters.AddWithValue("@orderItemId", orderItemId);
 
-                
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                
-                
+                conn.Open();
+                cmd.ExecuteNonQuery();
             }
         }
 
         public void ChangeKitchenCourseStatus(int orderId, string courseType, OrderItemStatus status)
         {
-            using var connection = new SqlConnection(_connectionString);
+            using var connection = ExtentionMethods.DatabaseHelper.GetConnection();
 
             string query = @"
                             UPDATE ORDER_ITEM
@@ -152,20 +135,18 @@ namespace Chapeau25.Repositories
                             WHERE ORDER_ITEM.order_id = @orderId AND MENU_ITEM.type = @courseType;
                         ";
 
-                using var command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@status", status.ToString());     //  "Preparing"
-                command.Parameters.AddWithValue("@orderId", orderId);              //   101
-                command.Parameters.AddWithValue("@courseType", courseType);        //   "Main"
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@status", status.ToString());
+            command.Parameters.AddWithValue("@orderId", orderId);
+            command.Parameters.AddWithValue("@courseType", courseType);
 
-          
-                connection.Open();
-                command.ExecuteNonQuery();
-
+            connection.Open();
+            command.ExecuteNonQuery();
         }
 
         public void ChangeEntireOrderStatusByType(int orderId,  bool isDrink, OrderItemStatus status)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = ExtentionMethods.DatabaseHelper.GetConnection())
             {
                 string query = @"UPDATE ORDER_ITEM
                                 SET OrderItemStatus = @status
@@ -173,16 +154,15 @@ namespace Chapeau25.Repositories
                                 JOIN MENU_ITEM ON ORDER_ITEM.menuitem_id = MENU_ITEM.menuitem_id
                                 WHERE ORDER_ITEM.order_id = @orderId AND MENU_ITEM.type " + (isDrink ? "= 'Drink'" : "IN ('Starter', 'Main', 'Dessert')") + ";";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@status", status.ToString());    // Preparing
-                    command.Parameters.AddWithValue("@orderId", orderId);             // 102
+                    command.Parameters.AddWithValue("@status", status.ToString());
+                    command.Parameters.AddWithValue("@orderId", orderId);
 
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
             }
         }
-
     }
 }

@@ -14,6 +14,10 @@ namespace Chapeau25
             // Add services to the container.
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IKitchenAndBarService, KitchenAndBarService>();
+            builder.Services.AddScoped<ITableRepository, TableRepository>();
+            builder.Services.AddScoped<ITableService, TableService>();
+            builder.Services.AddScoped<ILoginService, LoginService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             builder.Services.AddControllersWithViews();
 

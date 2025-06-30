@@ -7,14 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Chapeau25.Controllers
 {
-    public class KitchenAndBarController : Controller
+    public class KitchenAndBarController(IKitchenAndBarService kitchenBarService) : Controller
     {
-        private readonly IKitchenAndBarService _kitchenBarService;
-        public KitchenAndBarController(IKitchenAndBarService kitchenBarService)
-        { 
-            
-            _kitchenBarService = kitchenBarService;
-        }
+        private readonly IKitchenAndBarService _kitchenBarService = kitchenBarService;
 
         public IActionResult Index()
         {

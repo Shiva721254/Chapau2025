@@ -7,14 +7,9 @@ using NuGet.Protocol.Core.Types;
 
 namespace Chapeau25.Services
 {
-    public class KitchenAndBarService : IKitchenAndBarService
+    public class KitchenAndBarService(IOrderRepository Repo) : IKitchenAndBarService
     {
-        private readonly IOrderRepository _OrderRepo;
-
-        public KitchenAndBarService(IOrderRepository Repo)
-        {
-            _OrderRepo = Repo;
-        }
+        private readonly IOrderRepository _OrderRepo = Repo;
 
         public List<BarAndKitchenViewModel> GetCurrentKitchenOrders()
         {
